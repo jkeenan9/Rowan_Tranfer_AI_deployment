@@ -1,0 +1,41 @@
+title,course_id,credits,offered_in,prereq_all,prereq_one_of,Priority
+First Year Clinic I,ENGR 01.101,2,Fall,none,none,TRUE
+Calculus I,MATH 01.130,4,"Fall, Spring",none,none,TRUE
+Chemistry 1,CHEM 06.100,4,"Fall, Spring",none,none,TRUE
+Intro Sci Prog: Matlab/CAD,CS 01.104,3,Fall,none,none,TRUE
+Global Literacy,GLO-HUM-1,3,"Fall, Spring",none,none,FALSE
+First Year Clinic II,ENGR 01.102,2,Spring,"First Year Clinic I, Calculus I",none,TRUE
+Calculus II,MATH 01.131,4,"Fall, Spring",Calculus I,none,TRUE
+Intro Mech,PHYS 00.220,4,"Fall, Spring",Calculus I,none,TRUE
+Intro Mech Design,ME 10.101,3,Spring,none,none,TRUE
+College Comp I,ENGL 01.111,3,Spring,none,none,TRUE
+Sophomore Clinic I,ENGR 01.201,4,Fall,"College Comp I, Intro Mech, First Year Clinic II, Calculus II
+",none,TRUE
+Calculus III,MATH 01.230,4,Fall,Calculus II,none,TRUE
+Intro Elect & Magnet,PHYS 00.222,4,Fall,"Intro Mech, Calculus II",none,TRUE
+Statics,ENGR 01.271,2,Fall,"Intro Mech, Calculus II",none,TRUE
+Manuf & Meas Technology,ME 10.210,2,Fall,none,"Intro Mech Design, Intro Mech",TRUE
+Sophomore Clinic II,ENGR 01.202,4,Spring,Sophomore Clinic I,none,TRUE
+Math Eng Analysis,MATH 01.235,4,Spring,Calculus III,none,TRUE
+Matls Sci. & Manuf.,ENGR 01.283,3,Spring,Chemistry 1,none,TRUE
+Dynamics,ENGR 01.291,2,Spring,Statics,none,TRUE
+Intro Thermal Fluid Sci.,ME 10.310,4,Spring,"Chemistry 1, Intro Mech, Calculus III",none,TRUE
+Junior Clinic I,ENGR 01.303,2,Fall,"Sophomore Clinic II, Math Eng Analysis, Dynamics",none,TRUE
+Fluid Mech for ME,ME 10.330,3,Fall,"Math Eng Analysis, Statics, Intro Thermal Fluid Sci.",none,TRUE
+Intro Num Analysis,MATH 01.332,3,Fall,"Math Eng Analysis, Statics, Intro Sci Prog: Matlab/CAD",none,TRUE
+Strength of Materials,ENGR 01.273,3,Fall,Statics,none,TRUE
+Humanistic Literacy,HUM-LIT-1,3,"Fall, Spring",none,none,FALSE
+Junior Clinic II,ENGR 01.303,2,Spring,"Sophomore Clinic II, Math Eng Analysis, Dynamics, Junior Clinic I",none,TRUE
+Heat Transfer for ME,ME 10.335,3,Spring,Fluid Mech for ME,none,TRUE
+Finite Element Analysis,ENGR 01.410,3,Spring,"Math Eng Analysis, Strength of Materials ",none,TRUE
+Machine Design,ME 10.301,4,Spring,"Strength of Materials, Dynamics",none,TRUE
+Prin & Apps ECE for Non Majors,ECE 09.205,3,Spring,"Intro Sci Prog: Matlab/CAD, Intro Elect & Magnet, Calculus III",none,TRUE
+Senior Clinic I,ENGR 01.403,2,Fall,"Junior Clinic I, Intro Thermal Fluid Sci.",none,TRUE
+Dynamic Sys & Control,ME 10.345,4,Fall,"Math Eng Analysis, Dynamics",none,FALSE
+Quality & Reliability,ME 10.342,3,Fall,Calculus II,none,FALSE
+Ethics Elective,ETH_01,3,"Fall, Spring",none,none,FALSE
+Senior Clinic II,ENGR 01.403,2,Spring,Senior Clinic I,none,TRUE
+Tech Elective I,ME 10.4XX,3,"Fall, Spring",Junior Clinic II,none,FALSE
+Tech Elective II,ME 10.4XX,3,"Fall, Spring",Senior Clinic I,none,FALSE
+Artistic Literacy,ART_LIT-1,3,"Fall, Spring",none,none,FALSE
+Business Elective,BUS-ELE-1,3,"Fall, Spring",none,none,FALSE
