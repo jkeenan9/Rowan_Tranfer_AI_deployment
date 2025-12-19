@@ -1,8 +1,11 @@
 import streamlit as st
+st.write("Secrets keys:", list(st.secrets.keys()))
 from openai import OpenAI
 from app.development import schedule_model
 from app.development import iResponse
 import hmac
+
+
 
 def password_gate():
     # Session flag (per browser session)
@@ -40,7 +43,6 @@ def password_gate():
     st.stop()  # blocks rest of app until authed
 
 
-
 st.set_page_config(
     page_title="Rowan ME Transfer Advisor", 
     page_icon="🎓",
@@ -50,8 +52,6 @@ st.set_page_config(
          'About': "# This is a header. This is an *extremely* cool app!"
         },
     )
-
-
 
 password_gate()
 
@@ -85,9 +85,6 @@ def welcome_modal():
 #Triggers pop-up window
 if st.session_state.show_welcome_modal:
     welcome_modal()
-
-
-
 
 st.title("Rowan ME AI Transfer Advisor 🎓")
 st.write(
