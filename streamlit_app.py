@@ -1,10 +1,8 @@
 import streamlit as st
-st.write("Secrets keys:", list(st.secrets.keys()))
 from openai import OpenAI
 from app.development import schedule_model
 from app.development import iResponse
 import hmac
-
 
 
 def password_gate():
