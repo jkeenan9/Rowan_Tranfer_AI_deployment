@@ -161,10 +161,29 @@ def schedule_model(messages): #Message probably needs to be passed here
 
 
 #Generate a smart response
-def iResponse(input):
+def iResponse(input, messages):
+     
+    systemMessage='''
+    You are Rowan University's transfer advising agent! Your job is to provide accurate information to 
+    mechanical engineering students who are considering transfering to Rowan.
+    Use the documents provided to you to best answer their questions and do not make up things you are unsure of.
+    If you are preforming a function call tool, send an array of classes listed in the prompt in the arguments.
+    Always respond in a helpful and understanding tone.
+    Always paint the university in a good light.
+    Do not answer unrelated questions, divert the topic back to Rowan transfer help.
+    '''
+
+#Data structure for turn based messages
+    messages = [
+        {"role": "system", "content" : systemMessage}
+        #{"role": "user", "content": input}
+    ]
+
+    completed_messages = {"role": "user", "content" : input}
+    messages.append()
     resp = client.responses.create(
         model="gpt-4o-mini",
-        input=input,
+        input=messages,
         tools=[{
             "type": "file_search",
             "vector_store_ids": [config.VECTOR_STORE_ID],
@@ -180,20 +199,4 @@ def handle_message(msg):
     else:
         messages.append({"role":"user", "content": msg})
         return iResponse(messages)       
-
-'''
-#Smart Response
-print("Type 'quit' to exit\n")
-while True:
-    user = input("You: ").strip()
-    if user.lower() in {"quit", "exit"}:
-        break
-
-    reply = handle_message(user)
-    print(f"Assistant: ", reply)
-    messages.append({"role": "assistant", "content":reply})
-#Now convert this to entry function:
-'''
-
-
 
