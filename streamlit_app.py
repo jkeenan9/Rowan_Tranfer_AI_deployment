@@ -167,7 +167,7 @@ if user_input:
 
                 st.markdown(assistant_content)
 
-                print(assistant_content) #DEV TESTING -----------------------
+                #print(assistant_content) #DEV TESTING -----------------------
 
         st.session_state["messages"].append(
             {"role": "assistant", "content": assistant_content}
