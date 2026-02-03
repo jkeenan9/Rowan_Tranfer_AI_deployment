@@ -161,7 +161,7 @@ def schedule_model(messages): #Message probably needs to be passed here
 
 
 #Generate a smart response
-def iResponse(input, messages):
+def iResponse(userMessage):
      
     systemMessage='''
     You are Rowan University's transfer advising agent! Your job is to provide accurate information to 
@@ -179,8 +179,10 @@ def iResponse(input, messages):
         #{"role": "user", "content": input}
     ]
 
-    completed_messages = {"role": "user", "content" : input}
-    messages.append()
+    
+
+    #completed_messages = {"role": "user", "content" : input} #INCORRECT
+    messages.extend(userMessage)
     resp = client.responses.create(
         model="gpt-4o-mini",
         input=messages,
@@ -190,7 +192,17 @@ def iResponse(input, messages):
         }],
         max_output_tokens=1000
     )
-    return resp.output_text
+   
+    text_parts = []
+    for item in resp.output:
+        if item.type == "message":
+            for c in item.content:
+                if c.type == "output_text":
+                    text_parts.append(c.text)
+
+    return "\n".join(text_parts).strip()
+
+    #return resp.output_text
     
 def handle_message(msg):
     if is_schedule_request(msg):

@@ -1,11 +1,11 @@
 import streamlit as st
-st.write("Secrets keys:", list(st.secrets.keys()))
+#st.write("Secrets keys:", list(st.secrets.keys())) #Development check to ensure secrets are set on streamlit
 from openai import OpenAI
 from app.development import schedule_model
 from app.development import iResponse
 import hmac
 
-
+shown_warning = False
 
 def password_gate():
     # Session flag (per browser session)
@@ -18,9 +18,9 @@ def password_gate():
 
     # Otherwise show login UI and stop the app
     st.title("Rowan ME Transfer Advisor 🔒")
-    st.write("Enter the site password to continue. Press login button")
+    st.write("Enter the site password to continue. Press login button, **DO NOT** just press the enter key")
 
-    pw = st.text_input("Password", type="password")
+    pw = st.text_input("Password", type="password") #Password stored here
 
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -29,8 +29,8 @@ def password_gate():
                 st.error("Server misconfigured: SITE_PASSWORD secret not set.")
                 st.stop()
 
-            if hmac.compare_digest(pw, st.secrets["SITE_PASSWORD"]):
-                st.session_state.authed = True
+            if hmac.compare_digest(pw, st.secrets["SITE_PASSWORD"]): #Checks password against streamlit secret password
+                st.session_state.authed = True 
                 st.rerun()
             else:
                 st.error("Incorrect password.")
@@ -56,6 +56,7 @@ st.set_page_config(
 password_gate()
 
 # --- 1) One-time popup on first load (per session) ---
+#if shown_warning == False:
 if "show_welcome_modal" not in st.session_state:
     st.session_state.show_welcome_modal = True  # first time in this session
 
@@ -64,17 +65,19 @@ def welcome_modal():
     st.write(
         "This tool can help you with any transfer questions related to Rowan's mechanical engineering department,\n\n"
         "To build potential schedules, click View tips to see how to ask for a schedule\n\n"
-        "**Please understand**\n"
-        "- Double-check infomration with official advising resources before making important decisions.\n"
+        "**PLEASE UNDERSTAND!!**\n"
+        "- Double-check information with official advising resources before making important decisions.\n"
         "- AI can make mistakes.\n"
         "- Don’t paste sensitive info.\n"
+        "- This tool is good for general transfer questions, unique or detailed questions could yield inaccurate responses.\n"
     )
 
     dont_show = st.checkbox("Don’t show this again (this session)", value=False)
 
     if st.button("View tips"):
         st.info("To build a schedule say: “Make a schedule. I’ve taken Calculus II, Matls Sci. & Manuf., Intro Elect & Magnet")
-        st.info("This format must be followed exactly, course names must match the ME flowchart course names exactly. (Use I's for things like Calculus I)")
+        st.info("This format must be followed exactly, course names must match the ME flowchart course names exactly. (Use I's for things like Calculus I).")
+        st.info("1st year clinics must be typed as: 'First Year Clinic I or First Year Clinic II'.")
 
 
     # If they check “don’t show”, respect it immediately
@@ -98,7 +101,7 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = [
         {
             "role": "assistant",
-            "content": "Hi! Tell me what courses you've already taken, or ask a question about your schedule."
+            "content": "Hi! Ask me any questions you have about transfering into Rowan's ME program, or ask a question about your schedule."
         }
     ]
 
@@ -108,7 +111,7 @@ for msg in st.session_state["messages"]:
         st.markdown(msg["content"])
 
 # Chat input
-user_input = st.chat_input("Remeber AI can and will make mistakes.")
+user_input = st.chat_input("Remember AI can and will make mistakes.")
 
 if user_input:
     # 1. Add user message to history
@@ -119,9 +122,9 @@ if user_input:
         st.markdown(user_input)
 
     # 3. Decide: schedule mode vs general chat
-    # For now: simple heuristic – if they say 'schedule' or 'plan', use schedule_model
+    # How script decides to operate (general question response vs schedule building response)
     use_schedule_tool = any(
-        word in user_input.lower() for word in ["schedule", "make a schedule"]
+        word in user_input.lower() for word in ["schedule", "make a schedule"] #A good future works is to create a better system for this
     )
 
     if use_schedule_tool:
@@ -134,7 +137,7 @@ if user_input:
         ]
 
         with st.chat_message("assistant"):
-            with st.spinner("Building your schedule..."):
+            with st.spinner("Building your schedule..."): #Lets the user know system is building schedule
                 try:
                     schedule_text = schedule_model(messages_for_tool)
                 except Exception as e:
@@ -155,25 +158,16 @@ if user_input:
                         {"role": m["role"], "content": m["content"]}
                         for m in st.session_state["messages"]
                     ]
-                    
+
                     general_response = iResponse(general_messages_for_tool)
-                    '''
-                    resp = client.responses.create(
-                        model="gpt-5.1-mini",
-                        input=[
-                            {"role": "system", "content": "You are a helpful Rowan ME transfer advisor."},
-                            *[
-                                {"role": m["role"], "content": m["content"]}
-                                for m in st.session_state["messages"]
-                            ]
-                        ],
-                    )
-                    '''
-                    assistant_content = general_response
+
+                    assistant_content = general_response #This line can probably be removed and general_response can be replaced by assistant_content
                 except Exception as e:
                     assistant_content = f"Error talking to the model: `{e}`"
 
                 st.markdown(assistant_content)
+
+                print(assistant_content) #DEV TESTING -----------------------
 
         st.session_state["messages"].append(
             {"role": "assistant", "content": assistant_content}
